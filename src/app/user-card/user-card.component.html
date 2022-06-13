@@ -1,71 +1,107 @@
-<div class="card-body">
-    <div class="row gutters-sm">
-        <div class="col-md-4 mb-3">
-        <div class="card">
-            <div class="card-body">
-            <div class="d-flex flex-column align-items-center text-center">
-                <i class="fa fa-9x fa-user"></i>
-                <div class="mt-3">
-                <h4>Name</h4>
-                <p class="text-secondary mb-1">Phone</p> 
-                <p class="text-muted font-size-sm">Email</p>
-                </div>
-            </div>
-            </div>
-        </div>
-        </div>
-        <div class="col-md-8">
-            <div class="card mb-3">
-                <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-3">
-                    <h6 class="mb-0">Name</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                       Name
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-3">
-                    <h6 class="mb-0">Email</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                   
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-3">
-                    <h6 class="mb-0">Phone</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-            
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-3">
-                    <h6 class="mb-0">Gender</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-         
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-3">
-                    <h6 class="mb-0">Location</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                   
-                    </div>
-                </div>
-                <hr>
-             
-                </div>
-            </div>
-        </div>
-    </div>
 
-</div>
+<collapsible-table [type]="'accordion'" class="table table-striped table-responsive"
+style="max-height: 200px; overflow-x: auto;">
+    <thead>
+        <collapsible-table-row>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Nationality</th>
+            <th>Registration Seniority</th>
+            <th>Current Age</th>
+            <th>Phone Number</th>
+        </collapsible-table-row>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let user of user; index as i">
+            <collapsible-table-row [detail]="user1">
+                <td>{{ user.name.title }} {{ user.name.first }} {{ user.name.last }}</td>
+                <td>{{user.gender}}</td>
+                <td>{{user.nat}}</td>
+                <td>{{user.registered.age}}</td>
+                <td>{{user.dob.age}}</td>
+                <td>{{user.phone}}</td>
+            </collapsible-table-row>
+            <collapsible-table-row-detail #user1>
+                <div class="card border">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex flex-column align-items-center text-center">
+                                        <img src="{{ user.picture.large }}" class="img-fluid" alt="Display picture">
+                                        <div class="mt-3">
+                                            <h4>{{ user.name.title }} {{ user.name.first }} {{ user.name.last }}</h4>
+                                            <p class="text-secondary mb-1">{{ user.phone }}</p>
+                                            <p class="text-muted font-size-sm">{{ user.email }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Name</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            {{ user.name.title }} {{ user.name.first }} {{ user.name.last }}
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Email</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            {{ user.email }}
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Phone</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            {{ user.phone }}
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Gender</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            {{ user.gender }}
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Location</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <strong>Country:</strong> {{ user.location.country }}
+                                            <strong>City:</strong> {{ user.location.city }}
+                                            <strong>State:</strong> {{ user.location.state }}
+                                            <strong>Postcode:</strong> {{ user.location.postcode }}
+                                            <strong>Latitude:</strong> {{ user.location.coordinates.latitude }}
+                                            <strong>Longitude:</strong> {{ user.location.coordinates.longitude }}
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                </div>
+            </collapsible-table-row-detail>
+        </ng-container>
+        <ng-content></ng-content><!--Content Projection for the loading bar-->
+    </tbody>
+</collapsible-table>

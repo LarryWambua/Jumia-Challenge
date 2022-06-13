@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { User } from '../user';
 
 @Component({
   selector: 'app-user-card',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-card.component.less']
 })
 export class UserCardComponent implements OnInit {
-
+  @Input() user!: User[];
   constructor() { }
 
   ngOnInit(): void {
+    // console.log("user is " + JSON.stringify(this.user));
   }
 
 }

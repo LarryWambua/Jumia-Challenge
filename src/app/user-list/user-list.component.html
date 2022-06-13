@@ -1,1 +1,56 @@
-<app-user-card></app-user-card>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                    <h5 class="text-center">List of Users (<small>Click on row for more details</small>) 
+                        <button class="btn btn-outline-dark float-end" (click)="exportCSV()"><i class="fa fa-file-csv"></i>
+                         Export to CVS </button></h5> 
+                </div>
+            
+                </div>
+                <div class="card-body" style="text-align: justify;">
+                    <div class="row">
+                        <div class="card border col-md-3">
+                            <div class="form-group mt-3">
+                                <label class="form-label" for="Gender">
+                                    <input type="checkbox" (click)="toggleDisableGender()"> Gender
+                                </label>
+                                <input type="text" class="form-control" name="gender" [(ngModel)]="gender"
+                                    [disabled]="disableGender" />
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="form-label" for="Nationality">
+                                    <input type="checkbox" (click)="toggleDisableNationality()"> Nationality
+                                </label>
+                                <input type="text" class="form-control" name="nationality" [(ngModel)]="nationality"
+                                    [disabled]="disableNationality" />
+                            </div>
+                            <div class="form-group mt-3">
+                                <button class="btn btn-outline-primary" (click)="fetchUsers()"><i
+                                        class="fa fa-search"></i> Search</button>
+                            </div>
+                        </div>
+
+                        <!--Display the Table Rows and Card Here-->
+                        <div class="card border col-md-9">
+                            <app-user-card [user]="userData">
+                                <ng-container *ngIf="Loading">
+                                    <td colspan="5" style="text-align: center; ">
+                                        <div class="spinner-border text-primary mt-3" style="width: 3rem; height: 3rem;"
+                                            role="status">
+                                            <span class="sr-only" size="20">Loading...</span>
+                                        </div>
+                                    </td>
+                                </ng-container>
+
+
+                            </app-user-card>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

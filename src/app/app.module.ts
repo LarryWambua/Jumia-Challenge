@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // <-- import required for collapsible rows
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { UserCardComponent } from './user-card/user-card.component';
 import { UserListComponent } from './user-list/user-list.component';
 
@@ -11,6 +13,10 @@ import { CollapsibleModule } from 'angular2-collapsible';
 
 // Import Font Awesome
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'; 
+
+//Service to make http call
+import { UserDataService } from './user-data.service';
+import { ExportService } from './export.service';
 
 
 @NgModule({
@@ -22,10 +28,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
     BrowserAnimationsModule,  // <-- include required BrowserAnimationsModule
-    CollapsibleModule, FontAwesomeModule // <-- include angular2-collapsible module
+    CollapsibleModule, // <-- include angular2-collapsible module
+    FontAwesomeModule // <-- include font awesome module
   ],
-  providers: [],
+  providers: [ UserDataService, ExportService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
