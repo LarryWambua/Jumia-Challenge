@@ -1,0 +1,58 @@
+[
+    {
+        "gender": "male",
+        "name": {
+            "title": "Mr",
+            "first": "علیرضا",
+            "last": "زارعی"
+        },
+        "location": {
+            "street": {
+                "number": 3289,
+                "name": "شهید شواخ"
+            },
+            "city": "بابل",
+            "state": "یزد",
+            "country": "Iran",
+            "postcode": 78304,
+            "coordinates": {
+                "latitude": "32.4308",
+                "longitude": "-7.2235"
+            },
+            "timezone": {
+                "offset": "-1:00",
+                "description": "Azores, Cape Verde Islands"
+            }
+        },
+        "email": "aalyrd.zraay@example.com",
+        "login": {
+            "uuid": "a46572fc-9ab3-43b3-89bd-c7ba145d5c19",
+            "username": "sadsnake796",
+            "password": "meier",
+            "salt": "LQTonSmc",
+            "md5": "82f167ce4329bf0a6d717730bc695121",
+            "sha1": "d3e7248471558a8d5c95eb619c620233b8b97a4f",
+            "sha256": "e3f142fe73370082de03d0a2501dd0b595029e9256cde56f4ebfc5da9d97f543"
+        },
+        "dob": {
+            "date": "1971-06-04T07:53:47.803Z",
+            "age": 51
+        },
+        "registered": {
+            "date": "2015-05-02T07:54:16.470Z",
+            "age": 7
+        },
+        "phone": "003-38381675",
+        "cell": "0990-803-1011",
+        "id": {
+            "name": "",
+            "value": null
+        },
+        "picture": {
+            "large": "https://randomuser.me/api/portraits/men/62.jpg",
+            "medium": "https://randomuser.me/api/portraits/med/men/62.jpg",
+            "thumbnail": "https://randomuser.me/api/portraits/thumb/men/62.jpg"
+        },
+        "nat": "IR"
+    }
+]

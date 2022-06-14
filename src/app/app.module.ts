@@ -15,8 +15,8 @@ import { CollapsibleModule } from 'angular2-collapsible';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'; 
 
 //Service to make http call
-import { UserDataService } from './user-data.service';
-import { ExportService } from './export.service';
+import { UserDataService } from './services/user-data.service';
+import { ExportService } from './services/export.service';
 
 
 @NgModule({

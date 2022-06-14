@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../user';
-import { UserDataService } from '../user-data.service';
+import { User } from '../models/user';
+import { UserDataService } from '../services/user-data.service';
 import Swal from 'sweetalert2';
-import { ExportService } from '../export.service';
+import { ExportService } from '../services/export.service';
 
 
 @Component({
@@ -74,10 +74,10 @@ export class UserListComponent implements OnInit {
     let headers:string[] = ['Name', 'Gender', 'Location', 'Email', 'Current Age', 'Registration Seniority', 'Phone Number', 'Picture'];
     let values:string[]=[];
 
+    //Push Data into second array
     this.userData.forEach(function (item, index) {
-  
      let name = item.name.title + ' '+ item.name.first + ' '+ item.name.last;
-    let location = item.location.country;
+     let location = item.location.country;
      let email = item.email;
      let gender = item.gender;
      let age = item.dob.age.toString();
@@ -87,15 +87,15 @@ export class UserListComponent implements OnInit {
      values.push( name,gender,location,email,age,registered,phone,picture );
     });
 
-    console.log(values)
+    //Now Combine
      let csv = [];
      let obj:any = {};
       for(let i = 0 ; i < headers.length && i < values.length ; i++){
         obj[headers[i]] = values[i];
           }
           csv.push(obj);
-        //  console.log(csv);
-         //console.log(csv);
+
+     //Finally Call Service     
      this.exportService.downloadFile(csv);
   }
 }
