@@ -8,6 +8,7 @@ import { User } from '../models/user';
 })
 export class UserCardComponent implements OnInit {
   @Input() user!: User[];
+  @Input() column!:String[];
   constructor() { }
 
   ngOnInit(): void {

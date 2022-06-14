@@ -14,7 +14,7 @@ export class UserDataService {
     }
   
     public exportCSV( str:string ){
-      return this.http.get('https://randomuser.me/api/?results=25&format=csv&dl&'+str,{responseType: 'blob'});
+      return this.http.get('https://randomuser.me/api/?results=25&format=csv&dl'+str,{responseType: 'blob'});
       }
   
 }

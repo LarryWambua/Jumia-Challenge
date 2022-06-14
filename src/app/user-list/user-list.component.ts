@@ -26,10 +26,10 @@ export class UserListComponent implements OnInit {
   includeAge = true;
   includeRegistered = true;
   includePhone = true;
-  includePicture = true;
+  includeSeniority = true;
   Loading = false;
-  csvData: User[] = [];
-
+  columnData = ['Name','Gender','Nationality','Registration Seniority','Current Age','Phone Number'];
+  str='';
   throttle = 0;
   distance = 2;
   page = 1;
@@ -55,28 +55,14 @@ export class UserListComponent implements OnInit {
   }
 
   /* Function that calls serivce which fetches user data from API */
-  fetchUsers( isFilter: boolean) {
-
-    //Check if filter is applied ie gender or nationality if yes clear data first since the previous one might not contain the filter
-    if(isFilter){
-      this.userData = [];
-    }
- 
-    //necesary for filtering so we don't pass empty values
+  fetchUsers( isSearchFilter: boolean) {
+    //Do some filtering
+    this.filterData( isSearchFilter);
     ++this.page;
-    let str = 'results=20&page='+this.page;
-    if (this.gender != '') {
-      this.gender = (this.gender).toLowerCase();
-      str += '&gender=' + this.gender;
-    }
-    if (this.nationality != '') {
-      this.nationality = (this.nationality).toUpperCase();
-      str += '&nat=' + this.nationality;
-    }
-
+    this.str += '&results=20&page='+this.page;
     //Now call function in service
     this.Loading = true;
-    this.userDataService.getData(str).subscribe(
+    this.userDataService.getData(this.str).subscribe(
       (data: any) => {
         this.userData.push(...data.results);//push necesary for infinite scrolling
         this.Loading = false;
@@ -89,41 +75,99 @@ export class UserListComponent implements OnInit {
       });
   }
 
+  /*Function that Filters column, row data and url params*/
+  filterData(isSearchFilter : boolean){
+
+     //Check if search filter is applied ie gender or nationality if yes clear data first since the previous one might not contain the filter
+     if(isSearchFilter){
+      this.userData = [];
+    }
+  
+    //necesary for filtering so we don't pass empty url param values
+   
+    if (this.gender != '') {
+      this.gender = (this.gender).toLowerCase();
+      this.str += '&gender=' + this.gender;
+    }else{}
+    if (this.nationality != '') {
+      this.nationality = (this.nationality).toUpperCase();
+      this.str += '&nat=' + this.nationality;
+    }
+
+    //necesary for filtering the columns and row data 
+    this.str = '&exc=';
+    if ( !this.includeGender ) {
+      this.str += 'gender,';
+      let value = 'Gender';
+     this.columnData = this.columnData.filter(item => item !== value); //remove from column data
+    }else{
+      if (!this.columnData.includes('Gender')) {
+        this.columnData.splice(1,0,'Gender');  //add back to column data
+      }
+    }
+    if ( !this.includeAge ) {
+      this.str += 'dob,';
+      let value = 'Current Age';
+      this.columnData = this.columnData.filter(item => item !== value);
+    }
+    else{
+      if (!this.columnData.includes('Current Age')) {
+        this.columnData.splice(4,0,'Current Age');  //add back to column data
+      }
+    }
+    if ( !this.includeRegistered ) {
+      this.str += 'registered,';
+      let value = 'Registration Seniority';
+      this.columnData = this.columnData.filter(item => item !== value);
+    } else{
+      if (!this.columnData.includes('Registration Seniority')) {
+        this.columnData.splice(2,0,'Registration Seniority');  //add back to column data
+      }
+    }
+    if ( !this.includePhone ) {
+      this.str += 'phone,';
+      let value = 'Phone Number';
+     this.columnData = this.columnData.filter(item => item !== value);
+    }else{
+      if (!this.columnData.includes('Phone Number')) {
+        this.columnData.splice(5,0,'Phone Number');  //add back to column data
+      }
+    }
+
+    if ( !this.includeNationality ) {
+      this.str += 'nat,';
+      let value = 'Nationality';
+     this.columnData = this.columnData.filter(item => item !== value);
+    }else{
+      if (!this.columnData.includes('Nationality')) {
+        this.columnData.splice(2,0,'Nationality');  //add back to column data
+      }
+    }
+
+    if ( !this.includeName ) {
+      this.str += 'name,';
+      let value = 'Name';
+      this.columnData = this.columnData.filter(item => item !== value);
+    }else{
+      if (!this.columnData.includes('Name')) {
+        this.columnData.splice(0,0,'Name');  //add back to column data
+      }
+    }
+    if(this.str === '&exc=')
+    this.str = '';
+    this.str.slice(0, -1); //remove trailing comma
+
+  }
+
 
   /* Function that calls serivce which fetches user data from API with specific columns and param to export to cvs
      Function then calls service to save file to client
   */
   exportCSV() {
-    //necesary for filtering the columns
-    let str = 'inc=';
-    if (this.includeGender) {
-      str += 'gender,'
-    }
-    if (this.includeAge) {
-      str += 'dob,'
-    }
-    if (this.includeLocation) {
-      str += 'location,'
-    }
-    if (this.includeName) {
-      str += 'name,'
-    }
-    if (this.includePhone) {
-      str += 'phone,'
-    }
-    if (this.includePicture) {
-      str += 'picture,'
-    }
-    if (this.includeGender) {
-      this.gender = (this.gender).toLowerCase();
-      str += 'gender,'
-    }
-    str.slice(0, -1); //remove trailing comma
-
-
+  //First Filter
+  this.filterData(false);
     //Now call function in service
-    this.userDataService.exportCSV(str).subscribe(
-
+    this.userDataService.exportCSV(this.str).subscribe(
       //after calling API call export service to download
       data => this.exportService.downloadFile(data)),
       (error: string) => {
@@ -132,6 +176,11 @@ export class UserListComponent implements OnInit {
       };
 
   }
+
+  //For test purposes
+  get genderMessage() { return `Gender is ${this.checkGender ? 'On' : 'Off'}`; }
+
+  get nationalityMessage() { return `Nationality is ${this.checkGender ? 'On' : 'Off'}`; }
 
   
 }
