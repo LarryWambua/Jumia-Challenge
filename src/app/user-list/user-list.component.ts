@@ -30,26 +30,41 @@ export class UserListComponent implements OnInit {
   Loading = false;
   csvData: User[] = [];
 
+  throttle = 0;
+  distance = 2;
+  page = 1;
+
   constructor(private userDataService: UserDataService, private exportService: ExportService) { }
 
   ngOnInit(): void {
 
   }
 
-  /* Disable nationality input text */
+  /* Disable/Enable nationality input text */
   toggleDisableNationality() {
     this.disableNationality = !this.disableNationality;
+    if(this.disableNationality)
+    this.nationality = '';
   }
 
   /* Disable gender input text */
   toggleDisableGender() {
     this.disableGender = !this.disableGender;
+    if(this.disableGender)
+    this.gender = '';
   }
 
   /* Function that calls serivce which fetches user data from API */
-  fetchUsers(page = '1') {
+  fetchUsers( isFilter: boolean) {
+
+    //Check if filter is applied ie gender or nationality if yes clear data first since the previous one might not contain the filter
+    if(isFilter){
+      this.userData = [];
+    }
+ 
     //necesary for filtering so we don't pass empty values
-    let str = 'results=20&page='+page;
+    ++this.page;
+    let str = 'results=20&page='+this.page;
     if (this.gender != '') {
       this.gender = (this.gender).toLowerCase();
       str += '&gender=' + this.gender;
@@ -63,7 +78,7 @@ export class UserListComponent implements OnInit {
     this.Loading = true;
     this.userDataService.getData(str).subscribe(
       (data: any) => {
-        this.userData = data.results;
+        this.userData.push(...data.results);//push necesary for infinite scrolling
         this.Loading = false;
 
       },
@@ -117,5 +132,6 @@ export class UserListComponent implements OnInit {
       };
 
   }
+
   
 }

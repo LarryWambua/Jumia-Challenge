@@ -4,11 +4,13 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
-                    <h5 class="text-center">List of Users (<small>Click on row for more details</small>) 
-                        <button class="btn btn-outline-dark float-end" (click)="exportCSV()"><i class="fa fa-file-csv"></i>
-                         Export to CVS </button></h5> 
-                </div>
-            
+                        <h5 class="text-center">List of Users (<small>Click on row for more details</small>)
+                            <button class="btn btn-outline-dark float-end" (click)="exportCSV()"><i
+                                    class="fa fa-file-csv"></i>
+                                Export to CVS </button>
+                        </h5>
+                    </div>
+
                 </div>
                 <div class="card-body" style="text-align: justify;">
                     <div class="row">
@@ -28,13 +30,20 @@
                                     [disabled]="disableNationality" />
                             </div>
                             <div class="form-group mt-3">
-                                <button class="btn btn-outline-primary" (click)="fetchUsers()"><i
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="customSwitches">
+                                    <label class="custom-control-label" for="customSwitches">Toggle this switch element</label>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <button class="btn btn-outline-primary" (click)="fetchUsers(true)"><i
                                         class="fa fa-search"></i> Search</button>
                             </div>
                         </div>
 
                         <!--Display the Table Rows and Card Here-->
-                        <div class="card border col-md-9">
+                        <div class="card border col-md-9" infinite-scroll [infiniteScrollDistance]="distance"
+                            [infiniteScrollThrottle]="throttle" (scrolled)="fetchUsers(false)">
                             <app-user-card [user]="userData">
                                 <ng-container *ngIf="Loading">
                                     <td colspan="5" style="text-align: center; ">
