@@ -16,12 +16,21 @@ export class UserListComponent implements OnInit {
   disableNationality = true;
   checkGender = false;
   checkNationality = false;
-  gender ='';
+  gender = '';
   nationality = '';
+  includeGender = true;
+  includeNationality = true
+  includeName = true;
+  includeLocation = true;
+  includeEmail = true;
+  includeAge = true;
+  includeRegistered = true;
+  includePhone = true;
+  includePicture = true;
   Loading = false;
-  csvData:User[] = [];
+  csvData: User[] = [];
 
-  constructor( private userDataService: UserDataService, private exportService: ExportService ) { }
+  constructor(private userDataService: UserDataService, private exportService: ExportService) { }
 
   ngOnInit(): void {
 
@@ -37,65 +46,76 @@ export class UserListComponent implements OnInit {
     this.disableGender = !this.disableGender;
   }
 
-   /* Function that calls serivce which fetches user data from API */
-  fetchUsers() {
+  /* Function that calls serivce which fetches user data from API */
+  fetchUsers(page = '1') {
     //necesary for filtering so we don't pass empty values
-    let str = ''; 
-    if( this.gender != ''){
+    let str = 'results=20&page='+page;
+    if (this.gender != '') {
       this.gender = (this.gender).toLowerCase();
-    str += '&gender=' + this.gender;
+      str += '&gender=' + this.gender;
     }
-    if( this.nationality != ''){
+    if (this.nationality != '') {
       this.nationality = (this.nationality).toUpperCase();
       str += '&nat=' + this.nationality;
     }
-   
-   //Now call function in service
-   this.Loading = true;
+
+    //Now call function in service
+    this.Loading = true;
     this.userDataService.getData(str).subscribe(
       (data: any) => {
-      this.userData = data.results;
-      this.Loading = false;
-    
-    },
-    error => {
-      this.Loading = false;
-      console.log(error);
-      Swal.fire('Error', error, 'error');
-    });
+        this.userData = data.results;
+        this.Loading = false;
+
+      },
+      error => {
+        this.Loading = false;
+        console.log(error);
+        Swal.fire('Error', error, 'error');
+      });
   }
- 
-  /* Function that calls serivce to export to CSV:
-      Create two arrays, one for the header(titles) and the other for row data
-      Combine the two arrays into one with key value pairs
-      Pass the new array to the export service
+
+
+  /* Function that calls serivce which fetches user data from API with specific columns and param to export to cvs
+     Function then calls service to save file to client
   */
-  exportCSV(){
-    let headers:string[] = ['Name', 'Gender', 'Location', 'Email', 'Current Age', 'Registration Seniority', 'Phone Number', 'Picture'];
-    let values:string[]=[];
+  exportCSV() {
+    //necesary for filtering the columns
+    let str = 'inc=';
+    if (this.includeGender) {
+      str += 'gender,'
+    }
+    if (this.includeAge) {
+      str += 'dob,'
+    }
+    if (this.includeLocation) {
+      str += 'location,'
+    }
+    if (this.includeName) {
+      str += 'name,'
+    }
+    if (this.includePhone) {
+      str += 'phone,'
+    }
+    if (this.includePicture) {
+      str += 'picture,'
+    }
+    if (this.includeGender) {
+      this.gender = (this.gender).toLowerCase();
+      str += 'gender,'
+    }
+    str.slice(0, -1); //remove trailing comma
 
-    //Push Data into second array
-    this.userData.forEach(function (item, index) {
-     let name = item.name.title + ' '+ item.name.first + ' '+ item.name.last;
-     let location = item.location.country;
-     let email = item.email;
-     let gender = item.gender;
-     let age = item.dob.age.toString();
-     let registered = item.registered.age.toString();
-     let phone = item.phone;
-     let picture = item.picture.large;
-     values.push( name,gender,location,email,age,registered,phone,picture );
-    });
 
-    //Now Combine
-     let csv = [];
-     let obj:any = {};
-      for(let i = 0 ; i < headers.length && i < values.length ; i++){
-        obj[headers[i]] = values[i];
-          }
-          csv.push(obj);
+    //Now call function in service
+    this.userDataService.exportCSV(str).subscribe(
 
-     //Finally Call Service     
-     this.exportService.downloadFile(csv);
+      //after calling API call export service to download
+      data => this.exportService.downloadFile(data)),
+      (error: string) => {
+        console.log(error);
+        Swal.fire('Error', error, 'error');
+      };
+
   }
+  
 }

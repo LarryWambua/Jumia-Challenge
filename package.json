@@ -27,6 +27,7 @@
     "angular2-collapsible": "^0.8.0",
     "file-saver": "^2.0.5",
     "materialize-css": "^1.0.0",
+    "ngx-infinite-scroll": "^13.0.2",
     "rxjs": "~6.6.0",
     "sweetalert2": "^11.4.17",
     "tslib": "^2.3.0",

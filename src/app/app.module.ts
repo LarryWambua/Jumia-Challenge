@@ -16,7 +16,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 //Service to make http call
 import { UserDataService } from './services/user-data.service';
+
+//Service to export as CSV
 import { ExportService } from './services/export.service';
+
+//Import Scroll Library
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 @NgModule({
@@ -32,7 +37,8 @@ import { ExportService } from './services/export.service';
     HttpClientModule,
     BrowserAnimationsModule,  // <-- include required BrowserAnimationsModule
     CollapsibleModule, // <-- include angular2-collapsible module
-    FontAwesomeModule // <-- include font awesome module
+    FontAwesomeModule, // <-- include font awesome module
+    InfiniteScrollModule// <-- include scroll module
   ],
   providers: [ UserDataService, ExportService ],
   bootstrap: [AppComponent]

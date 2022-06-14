@@ -12,6 +12,7 @@ style="max-height: 200px; overflow-x: auto;">
         </collapsible-table-row>
     </thead>
     <tbody>
+        
         <ng-container *ngFor="let user of user; index as i">
             <collapsible-table-row [detail]="user1">
                 <td>{{ user.name.title }} {{ user.name.first }} {{ user.name.last }}</td>
