@@ -3,7 +3,7 @@ FROM node:16.8 as build-step
 RUN mkdir -p /app
 WORKDIR /app
 COPY package.json /app
-RUN npm install
+RUN npm install --legacy-peer-deps
 RUN npm install -g @angular/cli@12.2.17
 RUN npm i -D typescript@4.3.5
 COPY . /app
